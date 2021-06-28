@@ -264,7 +264,5 @@ document.addEventListener("keyup", keyUp);
 document.addEventListener("mousemove", mouseMoveHandler);
 
 playAgain.addEventListener("click", () => {
-  popup.classList.remove("show");
-  update();
-  document.addEventListener("mousemove", mouseMoveHandler);
+  location.reload();
 });
