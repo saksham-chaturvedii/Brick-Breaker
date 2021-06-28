@@ -4,12 +4,17 @@ let popup = document.getElementById("popup1");
 let mainMenu = document.getElementById("main-menu");
 let playAgain = document.getElementById("play-again");
 let scoreElem = document.getElementById("score");
+
 let brickBreakSound = document.getElementById("brick-break");
 let paddleBounce = document.getElementById("paddle-bounce");
 let winSound = document.getElementById("win-sound");
+let looseSound = document.getElementById("loose-sound");
 var auds = document.getElementById("audio");
+
 var backgroundSoundBtn = document.querySelector(".pause");
 var icon = document.querySelector(".fa-volume-up");
+
+let isBGSound = localStorage.getItem("sound");
 
 let score = 0;
 
@@ -20,7 +25,7 @@ console.log(levelDetail);
 
 if (levelDetail == "L1") {
   brickRowCount = 9;
-  brickColCount = 1;
+  brickColCount = 4;
 } else if (levelDetail == "L2") {
   brickRowCount = 9;
   brickColCount = 5;
@@ -128,6 +133,7 @@ function moveBall() {
 
   // bottom collision
   if (ball.y + ball.size > canvas.height) {
+    looseSound.play();
     messageDisplay("You Lost");
   }
 
@@ -162,9 +168,9 @@ function moveBall() {
   });
 
   if (score == brickRowCount * brickColCount) {
-    messageDisplay("You Won");
-    auds.pause();
     winSound.play();
+    winSound.volume = 0.5;
+    messageDisplay("You Won");
   }
 }
 
@@ -197,6 +203,7 @@ function mouseMoveHandler(e) {
 }
 
 function messageDisplay(text) {
+  auds.pause();
   popup.classList.add("show");
   popup.childNodes[1].childNodes[1].innerText =
     text + ` with a score of ${score}`;
@@ -234,13 +241,23 @@ function update() {
   draw();
 }
 
+// for making audio
+// console.log(isBGSound);
+// if (isBGSound) {
+//   auds.play();
+// } else {
+//   auds.pause();
+// }
+
 auds.play();
 auds.volume = 0.2;
 backgroundSoundBtn.addEventListener("click", () => {
   if (icon.classList.contains("fa-volume-up")) {
+    // localStorage.setItem("sound", true);
     icon.classList.remove("fa-volume-up");
     icon.classList.add("fa-volume-mute");
   } else {
+    // localStorage.setItem("sound", false);
     icon.classList.remove("fa-volume-mute");
     icon.classList.add("fa-volume-up");
   }
