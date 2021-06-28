@@ -1,5 +1,7 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
+let popup = document.getElementById("popup1");
+let play = document.getElementById("play");
 
 let score = 0;
 
@@ -20,7 +22,7 @@ const paddle = {
   y: canvas.height - 20,
   w: 80,
   h: 10,
-  speed: 8,
+  speed: 10,
   dx: 0,
 };
 
@@ -35,7 +37,7 @@ const brickInfo = {
 
 function drawBall() {
   ctx.beginPath();
-  ctx.arc(ball.x, ball.y, 10, 0, 2 * Math.PI);
+  ctx.arc(ball.x, ball.y, ball.size, 0, 2 * Math.PI);
   ctx.fillStyle = "#526";
   ctx.fill();
   ctx.closePath();
@@ -81,24 +83,140 @@ function drawScore() {
 function movePaddle() {
   paddle.x += paddle.dx;
 
+  // Wall detection
   if (paddle.x + paddle.w > canvas.width) {
-    paddle.x = canvas.width - paddle.x;
+    paddle.x = canvas.width - paddle.w;
   }
-
   if (paddle.x < 0) {
     paddle.x = 0;
   }
 }
 
-function moveBall() {}
+function moveBall() {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  // left and right collision
+  if (ball.x + ball.size > canvas.width || ball.x - ball.size < 0) {
+    ball.dx *= -1;
+  }
+
+  // top collision
+  if (ball.y - ball.size < 0) {
+    ball.dy *= -1;
+  }
+
+  // bottom collision
+  if (ball.y + ball.size > canvas.height) {
+    messageDisplay("You Lost");
+  }
+
+  // paddle collision
+  if (
+    ball.x - ball.size > paddle.x &&
+    ball.x + ball.size < paddle.x + paddle.w &&
+    ball.y + ball.size > paddle.y
+  ) {
+    ball.dy = -ball.speed;
+  }
+
+  // brick collision
+  bricks.forEach((column) => {
+    column.forEach((brick) => {
+      if (brick.visible) {
+        if (
+          ball.x - ball.size > brick.x &&
+          ball.x + ball.size < brick.x + brick.w &&
+          ball.y + ball.size > brick.y &&
+          ball.y - ball.size < brick.y + brick.h
+        ) {
+          ball.dy *= -1;
+          brick.visible = false;
+
+          score++;
+        }
+      }
+    });
+  });
+
+  if (score == brickRowCount * brickColCount) {
+    messageDisplay("You Won");
+  }
+}
+
+// Keydown event
+function keyDown(e) {
+  if (e.key === "Right" || e.key === "ArrowRight") {
+    paddle.dx = paddle.speed;
+  } else if (e.key === "Left" || e.key === "ArrowLeft") {
+    paddle.dx = -paddle.speed;
+  }
+}
+
+// Keyup event
+function keyUp(e) {
+  if (
+    e.key === "Right" ||
+    e.key === "ArrowRight" ||
+    e.key === "Left" ||
+    e.key === "ArrowLeft"
+  ) {
+    paddle.dx = 0;
+  }
+}
+
+function mouseMoveHandler(e) {
+  var relativeX = e.clientX - canvas.offsetLeft;
+  if (relativeX > 0 && relativeX < canvas.width) {
+    paddle.x = relativeX - paddle.w / 2;
+  }
+}
+
+function messageDisplay(text) {
+  popup.classList.add("show");
+  popup.childNodes[1].childNodes[1].innerText =
+    text + ` with a score of ${score}`;
+  score = 0;
+  reset();
+  document.removeEventListener("mousemove");
+}
+
+function reset() {
+  ball.x = canvas.width / 2;
+  ball.y = canvas.height / 2;
+  bricks.forEach((column) => {
+    column.forEach((brick) => {
+      brick.visible = true;
+    });
+  });
+}
 
 // Draw everything
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBall();
-  drawPaddle();
   drawScore();
+  drawBall();
   drawBricks();
+  drawPaddle();
 }
 
-draw();
+function update() {
+  movePaddle();
+  moveBall();
+
+  requestAnimationFrame(update);
+  // Draw everything
+  draw();
+}
+
+update();
+
+document.addEventListener("keydown", keyDown);
+document.addEventListener("keyup", keyUp);
+document.addEventListener("mousemove", mouseMoveHandler);
+
+play.addEventListener("click", () => {
+  popup.classList.remove("show");
+  update();
+  document.addEventListener("mousemove", mouseMoveHandler);
+});

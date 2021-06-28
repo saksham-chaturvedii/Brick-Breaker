@@ -4,7 +4,6 @@
 }
 
 body {
-  background: rgba(0, 0, 0, 0.507);
   display: flex;
   height: 100vh;
   flex-direction: column;
@@ -14,4 +13,46 @@ body {
 
 canvas {
   border: 2px solid blueviolet;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.popup {
+  text-align: center;
+  margin: 80px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 5px;
+  width: 50%;
+  height: 80%;
+  position: relative;
+  font-family: "Gloria Hallelujah", cursive;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+}
+
+button {
+  position: absolute;
+  left: 87%;
+  bottom: 1%;
+  border-radius: 40%;
+}
+
+.show {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
