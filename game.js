@@ -25,7 +25,7 @@ console.log(levelDetail);
 
 if (levelDetail == "L1") {
   brickRowCount = 9;
-  brickColCount = 1;
+  brickColCount = 4;
 } else if (levelDetail == "L2") {
   brickRowCount = 9;
   brickColCount = 5;
