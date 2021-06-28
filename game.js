@@ -25,7 +25,7 @@ console.log(levelDetail);
 
 if (levelDetail == "L1") {
   brickRowCount = 9;
-  brickColCount = 4;
+  brickColCount = 1;
 } else if (levelDetail == "L2") {
   brickRowCount = 9;
   brickColCount = 5;
@@ -241,27 +241,19 @@ function update() {
   draw();
 }
 
-// for making audio
-// console.log(isBGSound);
-// if (isBGSound) {
-//   auds.play();
-// } else {
-//   auds.pause();
-// }
-
 auds.play();
 auds.volume = 0.2;
+
 backgroundSoundBtn.addEventListener("click", () => {
   if (icon.classList.contains("fa-volume-up")) {
-    // localStorage.setItem("sound", true);
     icon.classList.remove("fa-volume-up");
     icon.classList.add("fa-volume-mute");
+    auds.pause();
   } else {
-    // localStorage.setItem("sound", false);
     icon.classList.remove("fa-volume-mute");
     icon.classList.add("fa-volume-up");
+    auds.play();
   }
-  return auds.paused ? auds.play() : auds.pause();
 });
 
 draw();

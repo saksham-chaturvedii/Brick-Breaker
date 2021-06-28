@@ -19,9 +19,10 @@ button.addEventListener("click", () => {
   if (icon.classList.contains("fa-volume-up")) {
     icon.classList.remove("fa-volume-up");
     icon.classList.add("fa-volume-mute");
+    auds.pause();
   } else {
     icon.classList.remove("fa-volume-mute");
     icon.classList.add("fa-volume-up");
+    auds.play();
   }
-  return auds.paused ? auds.play() : auds.pause();
 });

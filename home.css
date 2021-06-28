@@ -66,7 +66,6 @@ body {
   position: absolute;
   top: 10%;
   right: 35%;
-  /* text-shadow: 1px 1px #a0430e, 2px 2px #a0430e, 3px 3px #a0430e; */
 }
 h2 {
   font-family: "Roboto", sans-serif;
@@ -74,9 +73,6 @@ h2 {
   font-size: 45px;
   line-height: 2;
   color: #ce9c1f;
-  /* background: -webkit-linear-gradient(#a00e0e, #e0a717e3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; */
   position: absolute;
   top: 23%;
   right: 40%;
@@ -89,9 +85,6 @@ h2 {
   position: absolute;
   top: 10px;
   right: 40px;
-  /* border: 2px solid #a0430e;
-    border-radius: 10px;
-    padding: 10px; */
   animation: float 6sec ease-in-out 3;
 }
 
@@ -103,8 +96,6 @@ h2 {
   box-shadow: 0 0 2px 3px rgb(255, 174, 0);
   border-radius: 100%;
   transform: translateY(0px);
-  /* animation-name: fly;
-    animation-duration: 3s; */
   animation: fly 3s ease-in-out infinite;
 }
 .paadle {
@@ -138,8 +129,6 @@ input {
   font-size: 16px;
 }
 .level {
-  /* width: 100px;
-    height: auto; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -156,10 +145,8 @@ input {
 .level:hover {
   color: #833305;
   background-image: linear-gradient(#ce9c1f, #a0430e);
-  /* background-color: #dda91a; */
   border: 2px solid #a0430e;
   transform: scale(1.2, 1.2);
-  /* opacity: 0.7; */
 }
 
 .level a {
@@ -168,7 +155,6 @@ input {
 
 .levels {
   display: flex;
-  /* flex-direction: column; */
   position: absolute;
   bottom: 10%;
   right: 34.3%;
