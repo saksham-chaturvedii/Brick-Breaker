@@ -1,12 +1,33 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 let popup = document.getElementById("popup1");
-let play = document.getElementById("play");
+let mainMenu = document.getElementById("main-menu");
+let playAgain = document.getElementById("play-again");
+let scoreElem = document.getElementById("score");
+let brickBreakSound = document.getElementById("brick-break");
+let paddleBounce = document.getElementById("paddle-bounce");
+let winSound = document.getElementById("win-sound");
+var auds = document.getElementById("audio");
+var backgroundSoundBtn = document.querySelector(".pause");
+var icon = document.querySelector(".fa-volume-up");
 
 let score = 0;
 
-let brickRowCount = 9;
-let brickColCount = 5;
+let brickRowCount, brickColCount;
+
+let levelDetail = localStorage.getItem("level");
+console.log(levelDetail);
+
+if (levelDetail == "L1") {
+  brickRowCount = 9;
+  brickColCount = 1;
+} else if (levelDetail == "L2") {
+  brickRowCount = 9;
+  brickColCount = 5;
+} else if (levelDetail == "L3") {
+  brickRowCount = 9;
+  brickColCount = 6;
+}
 
 const ball = {
   x: canvas.width / 2,
@@ -38,7 +59,9 @@ const brickInfo = {
 function drawBall() {
   ctx.beginPath();
   ctx.arc(ball.x, ball.y, ball.size, 0, 2 * Math.PI);
-  ctx.fillStyle = "#526";
+  ctx.fillStyle = "#ce9c1f";
+  ctx.strokeStyle = "#001a33";
+  ctx.stroke();
   ctx.fill();
   ctx.closePath();
 }
@@ -46,7 +69,9 @@ function drawBall() {
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddle.x, paddle.y, paddle.w, paddle.h);
-  ctx.fillStyle = "rgb(56,68,95)";
+  ctx.fillStyle = "#ce9c1f";
+  ctx.strokeRect(paddle.x - 2, paddle.y - 2, paddle.w + 4, paddle.h + 4);
+  ctx.strokeStyle = "#001a33";
   ctx.fill();
   ctx.closePath();
 }
@@ -66,18 +91,13 @@ function drawBricks() {
     column.forEach((brick) => {
       ctx.beginPath();
       ctx.rect(brick.x, brick.y, brick.w, brick.h);
-      ctx.fillStyle = brick.visible ? "#849" : "transparent";
+      ctx.fillStyle = brick.visible ? "#859" : "transparent";
+      ctx.strokeStyle = brick.visible ? "black" : "transparent";
+      ctx.stroke();
       ctx.fill();
       ctx.closePath();
     });
   });
-}
-
-function drawScore() {
-  ctx.font = "20px Arial";
-  ctx.fillText(`Score: ${score}`, canvas.width - 100, 30);
-  ctx.fillStyle = "#0095dd";
-  ctx.fill();
 }
 
 function movePaddle() {
@@ -118,6 +138,7 @@ function moveBall() {
     ball.y + ball.size > paddle.y
   ) {
     ball.dy = -ball.speed;
+    paddleBounce.play();
   }
 
   // brick collision
@@ -132,8 +153,9 @@ function moveBall() {
         ) {
           ball.dy *= -1;
           brick.visible = false;
-
+          brickBreakSound.play();
           score++;
+          scoreElem.innerText = `Score : ${score}`;
         }
       }
     });
@@ -141,6 +163,8 @@ function moveBall() {
 
   if (score == brickRowCount * brickColCount) {
     messageDisplay("You Won");
+    auds.pause();
+    winSound.play();
   }
 }
 
@@ -184,6 +208,8 @@ function messageDisplay(text) {
 function reset() {
   ball.x = canvas.width / 2;
   ball.y = canvas.height / 2;
+  score = 0;
+  scoreElem.innerText = `Score : ${score}`;
   bricks.forEach((column) => {
     column.forEach((brick) => {
       brick.visible = true;
@@ -194,7 +220,6 @@ function reset() {
 // Draw everything
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawScore();
   drawBall();
   drawBricks();
   drawPaddle();
@@ -209,13 +234,27 @@ function update() {
   draw();
 }
 
-update();
+auds.play();
+auds.volume = 0.2;
+backgroundSoundBtn.addEventListener("click", () => {
+  if (icon.classList.contains("fa-volume-up")) {
+    icon.classList.remove("fa-volume-up");
+    icon.classList.add("fa-volume-mute");
+  } else {
+    icon.classList.remove("fa-volume-mute");
+    icon.classList.add("fa-volume-up");
+  }
+  return auds.paused ? auds.play() : auds.pause();
+});
+
+draw();
+canvas.addEventListener("click", update);
 
 document.addEventListener("keydown", keyDown);
 document.addEventListener("keyup", keyUp);
 document.addEventListener("mousemove", mouseMoveHandler);
 
-play.addEventListener("click", () => {
+playAgain.addEventListener("click", () => {
   popup.classList.remove("show");
   update();
   document.addEventListener("mousemove", mouseMoveHandler);

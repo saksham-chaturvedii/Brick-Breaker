@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="game.css" />
+    <title>Breakout Game</title>
+    <script
+      src="https://kit.fontawesome.com/7ca360a1f5.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <audio src="background_music.mp3" id="audio" loop></audio>
+    <audio src="./break.mp3" id="brick-break"></audio>
+    <audio src="./bounce.wav" id="paddle-bounce"></audio>
+    <audio src="./win.wav" id="win-sound"></audio>
+    <div class="container">
+      <div id="score">Score : 0</div>
+      <div class="pause"><i class="fas fa-volume-up"></i></div>
+      <canvas id="myCanvas" width="800" height="600"></canvas>
+      <div id="popup1" class="overlay">
+        <div class="popup">
+          <h2>You Lost!!</h2>
+          <div class="inner-btn" id="main-menu">
+            <a href="./index.html">Main Menu</a>
+          </div>
+          <div class="inner-btn" id="play-again">Play Again</div>
+          <div>
+            <i class="fas fa-trophy"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./game.js"></script>
+  </body>
+</html>

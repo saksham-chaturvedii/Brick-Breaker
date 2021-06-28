@@ -4,19 +4,46 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Breakout Game</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="./home.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Odibee+Sans&family=Roboto:ital,wght@1,700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/7ca360a1f5.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <!-- <img src="./paddle_initial.jpg" alt="" /> -->
-    <canvas id="myCanvas" width="800" height="600"></canvas>
-    <!-- <button id="start">click me</button> -->
-    <div id="popup1" class="overlay">
-      <div class="popup">
-        <h2>You Lost!!</h2>
-        <button id="play">Play again</button>
+    <audio src="background_music.mp3" id="audio" loop></audio>
+    <div class="container">
+      <div class="main">
+        <h1>Brick Breaker</h1>
+        <h2>Break the Rules</h2>
+        <div class="ball"></div>
+        <div class="paadle"></div>
+        <!-- <input
+          type="text"
+          name=""
+          id=""
+          placeholder="Enter Your Name:"
+          required
+        /> -->
+        <div class="levels">
+          <div class="level">
+            <a href="./game.html">L1</a>
+          </div>
+          <div class="level">
+            <a href="./game.html">L2</a>
+          </div>
+          <div class="level">
+            <a href="./game.html">L3</a>
+          </div>
+        </div>
       </div>
+      <div class="pause"><i class="fas fa-volume-up"></i></div>
     </div>
-    <script src="./script.js"></script>
+    <script src="./home.js"></script>
   </body>
 </html>
