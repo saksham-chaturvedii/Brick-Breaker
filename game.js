@@ -241,8 +241,10 @@ function update() {
   draw();
 }
 
-auds.play();
-auds.volume = 0.2;
+window.onload = () => {
+  auds.play();
+  auds.volume = 0.2;
+};
 
 backgroundSoundBtn.addEventListener("click", () => {
   if (icon.classList.contains("fa-volume-up")) {

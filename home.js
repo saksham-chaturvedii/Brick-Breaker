@@ -3,8 +3,10 @@ var button = document.querySelector(".pause");
 var icon = document.querySelector(".fa-volume-up");
 let levelElems = document.querySelectorAll(".level");
 
-auds.play();
-auds.volume = 0.7;
+window.onload = () => {
+  auds.play();
+  auds.volume = 0.7;
+};
 
 let gameLevel = "";
 
